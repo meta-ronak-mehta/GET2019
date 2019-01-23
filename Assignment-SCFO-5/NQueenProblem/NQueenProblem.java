@@ -1,0 +1,93 @@
+
+public class NQueenProblem {
+
+
+    /**
+     * @param arr 2D integer Array
+     * @param startRow integer value 
+     * @param dimensionOfMatrix integer value 
+     * @return  true if the solution Exist    
+     */
+    public boolean nQueen(int arr[][],int startRow,int dimensionOfMatrix){  
+        int N=dimensionOfMatrix;
+        int board[][] =new int [N][N];
+        
+        if (solveNQueen(board, 0,N) == false) { 
+            System.out.println("Solution does not exist"); 
+            return false; 
+        }
+        printSolution(board,N); 
+        return true; 
+    }
+    
+    /**
+     * 
+     * @param board integer Array
+     * @param col integer
+     * @param  N :Dimension Of Square Matrix
+     * @return true if Queen can be placed in the col 
+     */
+    private boolean solveNQueen(int board[][], int col,int N){ 
+        //base case: If all queens are placed then return true
+        if (col >= N) 
+            return true; 
+
+        // Consider this column and try placing this queen in all rows one by one
+        for (int i = 0; i < N; i++){             
+            if (isSafeToPalceQueen(board, i, col,N)){ 
+                board[i][col] = 1; 
+                // Recursion to place rest of the queens 
+                if (solveNQueen(board, col + 1,N) == true) 
+                    return true; 
+                // If placing queen in board[i][col] doesn't lead to a solution then remove queen from board[i][col]
+                board[i][col] = 0; // BACKTRACK 
+            } 
+        } 
+        // If the queen can not be placed in any row in this colum col, then return false
+         return false; 
+    } 
+    
+    /** 
+     * to print solution
+     * @param board A 2D array that represent ChessBoard of N*N
+     * @param  N :Dimension Of Square Matrix
+     */
+    private void printSolution(int board[][],int N) { 
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) 
+                System.out.print(board[i][j] + " "); 
+            System.out.println(); 
+        }
+    }    
+
+    /**
+     * to check if a queen can be placed on board[row][col]
+     * @param board a 2D array where we have to check at position [row] [col] 
+     * @param row integer value
+     * @param col integer value
+     * @param  N :Dimension Of Square Matrix
+     * @return true if the Queen can be placed on board at location [row][col] 
+     */
+    private boolean isSafeToPalceQueen(int board[][], int row, int col,int N){
+        int i, j; 
+            
+        //Check this row on left side 
+        for (i = 0; i < col; i++) 
+            if (board[row][i] == 1) 
+                return false; 
+
+        //Check upper diagonal on left side 
+        for (i=row, j=col; i>=0 && j>=0; i--, j--) 
+            if (board[i][j] == 1) 
+                return false; 
+
+        //Check lower diagonal on left side
+        for (i=row, j=col; j>=0 && i<N; i++, j--) 
+            if (board[i][j] == 1) 
+                return false;     
+        
+        return true; 
+    } 
+}
+
+
