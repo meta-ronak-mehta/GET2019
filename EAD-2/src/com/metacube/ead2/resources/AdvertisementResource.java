@@ -23,13 +23,16 @@ import com.metacube.ead2.model.Advertisement;
 public class AdvertisementResource {
 
 	AdvertisementFacade advertisementFacade = BaseFactory.createAdvertisementFacade();
+	Private String key="get2019";
 
 	@POST
 	@Path("/InsertAdvertisement/{id}/{title}/{desc}/{categoryID}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Status insertAdvertisement(@HeaderParam("Authorization") String authorization,@PathParam("id") int id,@PathParam("title") String title,@PathParam("desc") String desc,@PathParam("categoryID") int categoryID) {
-
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}		
 		Advertisement advertisement=new Advertisement(id,title,desc,categoryID);
 
 		if (advertisement.getDescription() != null && advertisement.getTitle() != null) {
@@ -43,7 +46,9 @@ public class AdvertisementResource {
 	@Path("/GetAllAdvertisment")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllAdvertisements(@HeaderParam("Authorization") String authorization) {
-
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}
 		List<Advertisement> advertismentList = advertisementFacade.getAll();
 		if (advertismentList.size() != 0) {
 			Gson gson = new Gson();
@@ -58,7 +63,9 @@ public class AdvertisementResource {
 	@Path("/UpdateAdvertisement/{id}/{title}/{desc}/{categoryID}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Status updateAdvertisement(@HeaderParam("Authorization") String authorization,@PathParam("id") int id,@PathParam("title") String title,@PathParam("desc") String desc,@PathParam("categoryID") int categoryID) {
-
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}
 		Advertisement advertisement=new Advertisement(id,title,desc,categoryID);
 		
 		if (advertisement.getTitle() != null) {
@@ -71,7 +78,9 @@ public class AdvertisementResource {
 	@Path("/DeleteAdvertisementById/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Status deleteAdvertisement(@HeaderParam("Authorization") String authorization, @PathParam("id") int id) {
-
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}
 		return advertisementFacade.deleteAdvertisement(id);
 
 	}
