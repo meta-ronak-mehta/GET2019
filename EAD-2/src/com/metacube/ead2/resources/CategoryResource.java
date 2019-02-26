@@ -22,13 +22,16 @@ import com.metacube.ead2.model.Category;
 public class CategoryResource {
 
 	CategoryFacade categoryFacade = BaseFactory.createCategoryFacade();
+	Private String key="get2019";
 
 	@POST
 	@Path("/InsertCategory/{categoryID}/{categoryName}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Status insertCategory(@HeaderParam("Authorization") String authorization, @PathParam("categoryID") int categoryID,@PathParam("categoryName") String categoryName) {
-
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}
 		Category category=new Category(categoryID, categoryName);
 		if (category.getName() != null) {
 			return categoryFacade.insertCategory(category);
@@ -41,7 +44,9 @@ public class CategoryResource {
 	@Path("/GetCategory")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAllCategories(@HeaderParam("Authorization") String authorization) {
-
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}
 
 		List<Category> categoryList = categoryFacade.getAll();
 		if (categoryList.size() != 0) {
@@ -57,7 +62,9 @@ public class CategoryResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Status updateCategory(@HeaderParam("Authorization") String authorization, @PathParam("categoryID") int categoryID,@PathParam("categoryName") String categoryName) {
 		Category category=new Category(categoryID, categoryName);
-		
+		if (! key.equals(authorization)) {
+			return Status.ERROR;
+		}
 		if (category.getName() != null) {
 			return categoryFacade.updateCategory(category);
 		}
