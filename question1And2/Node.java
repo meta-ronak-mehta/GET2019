@@ -11,11 +11,7 @@ public class Node<T> {
 
     @Override
     public String toString() {
-        try {
-            return "[data=" + data + ", next=" + next + "]";
-        }catch(StackOverflowError t) {
-            System.err.println("Stcak overflow catch");
-            return "";
+        return "[data=" + data + ", next=" + next + "]";
         }
     }
 }
