@@ -30,7 +30,7 @@ public class PriorityQueueArray implements PriorityQueue {
                 }
                 int pos = -1;
                 // to get the index where we have to store that job
-                for (int i = front; i <= (rear - 1); i++) {
+                for (int i = front; i <= ((rear - 1)%this.maxSize); i++) {
                     if (job.getPriority() > queue[i].getPriority()) {
                         pos = i;
                         break;
